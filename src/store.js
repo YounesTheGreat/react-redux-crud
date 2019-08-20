@@ -12,7 +12,3 @@ const store = createStore(
     applyMiddleware(logger));
 
 export default store;
-
-store.dispatch({ type: "ADD_USER", payload: { name: "Younes "}});
-
-console.log(store.getState());
