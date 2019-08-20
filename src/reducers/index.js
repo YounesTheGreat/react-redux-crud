@@ -1,9 +1,11 @@
+let nextUserId = 1;
+
 export const userReducer = (state = [], action) => {
     switch (action.type) {
         case "ADD_USER":
-            return [...state, action.payload]; 
+            return [...state, { id: nextUserId++, ...action.payload }]; 
         case "REMOVE_USER":
-            return state.filter(user => user.name !== action.payload.name);
+            return state.filter(user => user.id !== action.payload.id);
         default:
             return state;
     }

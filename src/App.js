@@ -1,25 +1,36 @@
 import React from 'react';
-import logo from './logo.svg';
+import { connect } from "react-redux";
+import { addUser, removeUser } from "./actions";
+import UserRow from "./components/UserRow";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  
+  addUser = (e) => {
+    e.preventDefault();
+    this.props.addUser(this.refs.username.value);
+    this.refs.username.value = '';
+  };
+
+  createUserRow = (user) => (<UserRow  key={user.id} user={user} removeUser={this.props.removeUser} />);
+
+  render() {
+    let { users } = this.props;
+    return (
+      <div>
+        Hello,
+        <form action="#" onSubmit={this.addUser}>
+          <label>Add a user </label>
+          <input type="text" ref="username" />
+          <button type="submit">+</button>
+        </form>
+        { users.map(this.createUserRow) }
+      </div>
+    );    
+  }
 }
 
-export default App;
+const mapState = (state) => ({ users: state.users });
+
+const mapDispatch = { addUser, removeUser };
+
+export default connect(mapState, mapDispatch)(App);
